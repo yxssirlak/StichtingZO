@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 from PIL import Image, ImageDraw
 from collections import Counter
 
-HUIDIGE_VERSIE = "1.4.2"
+HUIDIGE_VERSIE = "1.4.3"
 
 #python -m PyInstaller --noconsole --onefile --exclude PyQt5 --icon=app.ico --add-data "Icons;Icons" --add-data "logo_stichtingzo_rgb.png;." --add-data "ENVStichtingZO.env;." StichtingZOPortaal.py
 
@@ -3469,13 +3469,25 @@ class StichtingZOPortal(QMainWindow):
         layout.addSpacing(10)
 
         scroll = QScrollArea(); scroll.setWidgetResizable(True)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         container = QWidget(); form_layout = QVBoxLayout(container)
         form_layout.setAlignment(Qt.AlignTop)
         
         header_card = QFrame(); header_card.setObjectName("Card"); hl = QVBoxLayout(header_card)
-        hl.addWidget(QLabel(str(template.get('titel') or ''), styleSheet=f"font-size: 22px; font-weight: bold; color: {Colors.accent}; border: none;"))
+        
+        lbl_titel_form = QLabel(str(template.get('titel') or ''))
+        lbl_titel_form.setWordWrap(True) 
+        lbl_titel_form.setStyleSheet(f"font-size: 22px; font-weight: bold; color: {Colors.accent}; border: none;")
+        hl.addWidget(lbl_titel_form)
+        
+        
         beschrijving = str(template.get('beschrijving') or '').strip()
-        if beschrijving: hl.addWidget(QLabel(beschrijving, styleSheet="font-size: 14px; border: none;"))
+        if beschrijving: 
+            lbl_desc_form = QLabel(beschrijving)
+            lbl_desc_form.setWordWrap(True)
+            lbl_desc_form.setStyleSheet("font-size: 14px; border: none;")
+            hl.addWidget(lbl_desc_form)
+            
         form_layout.addWidget(header_card)
         
         info_card = QFrame(); info_card.setObjectName("Card"); il = QGridLayout(info_card)
