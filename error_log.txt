@@ -1,0 +1,383 @@
+
+[2026-04-27 15:51:36] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 527, in <lambda>
+    {"icon_file": "pdf.svg", "text": "PDF Extractor", "callback": lambda: self.show_tab_tool("PDF Extractor", "Haal data uit facturen", "pdf")},
+                                                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:51:36] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 528, in <lambda>
+    {"icon_file": "excel.svg", "text": "Excel Robot", "callback": lambda: self.show_tab_tool("Excel Robot", "Combineer en formatteer data", "excel")},
+                                                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:51:37] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 527, in <lambda>
+    {"icon_file": "pdf.svg", "text": "PDF Extractor", "callback": lambda: self.show_tab_tool("PDF Extractor", "Haal data uit facturen", "pdf")},
+                                                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:51:39] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 527, in <lambda>
+    {"icon_file": "pdf.svg", "text": "PDF Extractor", "callback": lambda: self.show_tab_tool("PDF Extractor", "Haal data uit facturen", "pdf")},
+                                                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:51:39] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 528, in <lambda>
+    {"icon_file": "excel.svg", "text": "Excel Robot", "callback": lambda: self.show_tab_tool("Excel Robot", "Combineer en formatteer data", "excel")},
+                                                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:51:40] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 529, in <lambda>
+    {"icon_file": "archive.svg", "text": "Archiefkast", "callback": lambda: self.show_tab_tool("Digitale Archiefkast", "Sorteer rommel-mappen", "archive")},
+                                                                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:51:40] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 530, in <lambda>
+    {"icon_file": "web.svg", "text": "Web Bot", "callback": lambda: self.show_tab_tool("Web Automatisering", "Simuleer muisklikken", "web")},
+                                                                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:51:41] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 529, in <lambda>
+    {"icon_file": "archive.svg", "text": "Archiefkast", "callback": lambda: self.show_tab_tool("Digitale Archiefkast", "Sorteer rommel-mappen", "archive")},
+                                                                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:51:41] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 528, in <lambda>
+    {"icon_file": "excel.svg", "text": "Excel Robot", "callback": lambda: self.show_tab_tool("Excel Robot", "Combineer en formatteer data", "excel")},
+                                                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:51:41] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 527, in <lambda>
+    {"icon_file": "pdf.svg", "text": "PDF Extractor", "callback": lambda: self.show_tab_tool("PDF Extractor", "Haal data uit facturen", "pdf")},
+                                                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:51:43] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 527, in <lambda>
+    {"icon_file": "pdf.svg", "text": "PDF Extractor", "callback": lambda: self.show_tab_tool("PDF Extractor", "Haal data uit facturen", "pdf")},
+                                                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:51:54] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 527, in <lambda>
+    {"icon_file": "pdf.svg", "text": "PDF Extractor", "callback": lambda: self.show_tab_tool("PDF Extractor", "Haal data uit facturen", "pdf")},
+                                                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:51:56] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 528, in <lambda>
+    {"icon_file": "excel.svg", "text": "Excel Robot", "callback": lambda: self.show_tab_tool("Excel Robot", "Combineer en formatteer data", "excel")},
+                                                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:51:57] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 527, in <lambda>
+    {"icon_file": "pdf.svg", "text": "PDF Extractor", "callback": lambda: self.show_tab_tool("PDF Extractor", "Haal data uit facturen", "pdf")},
+                                                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:55:32] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 527, in <lambda>
+    {"icon_file": "pdf.svg", "text": "PDF Extractor", "callback": lambda: self.show_tab_tool("PDF Extractor", "Haal data uit facturen", "pdf")},
+                                                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:55:33] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 528, in <lambda>
+    {"icon_file": "excel.svg", "text": "Excel Robot", "callback": lambda: self.show_tab_tool("Excel Robot", "Combineer en formatteer data", "excel")},
+                                                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 15:55:33] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 622, in wrapper
+    cb()
+    ~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 527, in <lambda>
+    {"icon_file": "pdf.svg", "text": "PDF Extractor", "callback": lambda: self.show_tab_tool("PDF Extractor", "Haal data uit facturen", "pdf")},
+                                                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 769, in show_tab_tool
+    btn_blader.setStyleSheet(f"background: {Colors.bg_app}; border: 1px solid {Colors.border}; border-radius: 8px; font-weight:bold;")
+                                            ^^^^^^^^^^^^^
+AttributeError: type object 'Colors' has no attribute 'bg_app'
+----------------------------------------
+
+[2026-04-27 16:08:16] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 469, in launch_portal
+    login = LoginScreen()
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 269, in __init__
+    self.w_mail, self.inp_email = create_input("mail.svg", "admin@itnomie.nl")
+                                  ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 260, in create_input
+    icn = QLabel(); icn.setPixmap(get_tinted_icon(icon, Colors.text_sub).pixmap(18, 18))
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PySide6.QtGui.QPixmap' object has no attribute 'pixmap'
+----------------------------------------
+
+[2026-04-27 16:08:25] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 469, in launch_portal
+    login = LoginScreen()
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 269, in __init__
+    self.w_mail, self.inp_email = create_input("mail.svg", "admin@itnomie.nl")
+                                  ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 260, in create_input
+    icn = QLabel(); icn.setPixmap(get_tinted_icon(icon, Colors.text_sub).pixmap(18, 18))
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PySide6.QtGui.QPixmap' object has no attribute 'pixmap'
+----------------------------------------
+
+[2026-04-27 20:38:49] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 625, in run_demo_script
+    self.worker = AutomationWorker("Database Sync")
+                  ^^^^^^^^^^^^^^^^
+NameError: name 'AutomationWorker' is not defined
+----------------------------------------
+
+[2026-04-27 23:19:47]
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 848, in <lambda>
+    self.drop_card.mousePressEvent = lambda e: self.open_pdf_dialog()
+                                               ~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 894, in open_pdf_dialog
+    self.start_next_batch_item()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 915, in start_next_batch_item
+    self.pdf_worker.progress.connect(self.update_pdf_progress)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ITnomieCommandCenter' object has no attribute 'update_pdf_progress'
+----------------------------------------
+
+[2026-04-27 23:20:00]
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 848, in <lambda>
+    self.drop_card.mousePressEvent = lambda e: self.open_pdf_dialog()
+                                               ~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 894, in open_pdf_dialog
+    self.start_next_batch_item()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 915, in start_next_batch_item
+    self.pdf_worker.progress.connect(self.update_pdf_progress)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ITnomieCommandCenter' object has no attribute 'update_pdf_progress'
+----------------------------------------
+
+[2026-04-27 23:22:17]
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 849, in <lambda>
+    self.drop_card.mousePressEvent = lambda e: self.open_pdf_dialog()
+                                               ~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 895, in open_pdf_dialog
+    self.start_next_batch_item()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 916, in start_next_batch_item
+    self.pdf_worker.progress.connect(self.update_pdf_progress)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ITnomieCommandCenter' object has no attribute 'update_pdf_progress'
+----------------------------------------
+
+[2026-04-27 23:22:33]
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 849, in <lambda>
+    self.drop_card.mousePressEvent = lambda e: self.open_pdf_dialog()
+                                               ~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 895, in open_pdf_dialog
+    self.start_next_batch_item()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 916, in start_next_batch_item
+    self.pdf_worker.progress.connect(self.update_pdf_progress)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ITnomieCommandCenter' object has no attribute 'update_pdf_progress'
+----------------------------------------
+
+[2026-04-27 23:22:49]
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 849, in <lambda>
+    self.drop_card.mousePressEvent = lambda e: self.open_pdf_dialog()
+                                               ~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 895, in open_pdf_dialog
+    self.start_next_batch_item()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 916, in start_next_batch_item
+    self.pdf_worker.progress.connect(self.update_pdf_progress)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ITnomieCommandCenter' object has no attribute 'update_pdf_progress'
+----------------------------------------
+
+[2026-04-27 23:24:13]
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 902, in open_pdf_dialog
+    self.start_next_batch_item()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 923, in start_next_batch_item
+    self.pdf_worker.progress.connect(self.update_pdf_progress)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ITnomieCommandCenter' object has no attribute 'update_pdf_progress'
+----------------------------------------
+
+[2026-04-27 23:41:12]
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 953, in <lambda>
+    worker.finished_data.connect(lambda data: self.process_batch_result(data, worker))
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 983, in process_batch_result
+    self.append_result_to_ui(data, payload)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 1004, in append_result_to_ui
+    <tr><td style="color: {Colors.text_sub};">IBAN</td><td>{make_badge(payload['iban'])}</td></tr>
+                                                            ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 992, in make_badge
+    valid_items = [str(i).strip() for i in items if str(i).strip()]
+                                           ^^^^^
+TypeError: 'NoneType' object is not iterable
+----------------------------------------
+
+[2026-04-27 23:43:50]
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 942, in open_pdf_dialog
+    self.handle_multiple_files(paths)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 959, in handle_multiple_files
+    self.start_next_batch_item()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 976, in start_next_batch_item
+    worker.progress.connect(self.update_pdf_progress)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ITnomieCommandCenter' object has no attribute 'update_pdf_progress'
+----------------------------------------
+
+[2026-04-27 23:44:13]
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 942, in open_pdf_dialog
+    self.handle_multiple_files(paths)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 959, in handle_multiple_files
+    self.start_next_batch_item()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\PC\StichtingZO\ITnomiePortaal.py", line 976, in start_next_batch_item
+    worker.progress.connect(self.update_pdf_progress)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ITnomieCommandCenter' object has no attribute 'update_pdf_progress'
+----------------------------------------
+
+[2026-05-02 17:22:53] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\StichtingZOPortaal.py", line 675, in rotate
+    def rotate(self):
+    
+KeyboardInterrupt: 
+----------------------------------------
+
+[2026-05-02 17:22:58] --- CRASH RAPPORT ---
+  File "c:\Users\PC\StichtingZO\StichtingZOPortaal.py", line 675, in rotate
+    def rotate(self):
+    
+KeyboardInterrupt: 
+----------------------------------------

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stichting ZO! - Vragenlijst</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+
+    <button id="theme-toggle" class="theme-toggle">🌙 Dark Mode</button>
+
+    <div class="container">
+        <div class="header">
+            <img src="logo_stichtingzo_rgb.png" alt="Stichting ZO! Logo" class="logo">
+        </div>
+
+        <div id="vragenlijst-container">
+            <h2>Laden...</h2>
+            <p>De vragenlijst wordt opgehaald.</p>
+        </div>
+
+        <form id="enquete-formulier" style="display: none;">
+            
+            <div class="card">
+                <h3>Jouw gegevens</h3>
+                <div class="form-group">
+                    <label for="naam">Voornaam (of Alias)</label>
+                    <input type="text" id="naam" required placeholder="Vul je voornaam in">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="geslacht">Geslacht</label>
+                        <select id="geslacht" required>
+                            <option value="Man">Man</option>
+                            <option value="Vrouw">Vrouw</option>
+                            <option value="Zeg ik liever niet">Zeg ik liever niet</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="leeftijd">Leeftijd</label>
+                        <select id="leeftijd" required>
+                            </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dynamische-vragen"></div>
+
+            <div class="card">
+                <h3>Extra Opmerkingen / Ideeën</h3>
+                <p class="subtitle">Wat mis je nog of wat wil je graag aan ons kwijt?</p>
+                <textarea id="opmerking" rows="4" placeholder="Typ hier je opmerking..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Opslaan & Verzenden</button>
+        </form>
+
+        <div id="succes-bericht" style="display: none;" class="card success">
+            <h2>Bedankt!</h2>
+            <p>Jouw antwoorden zijn succesvol verzonden.</p>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
