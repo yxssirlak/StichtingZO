@@ -24,7 +24,6 @@ HUIDIGE_VERSIE = "1.4.3"
 #python -m PyInstaller --noconsole --onefile --exclude PyQt5 --icon=app.ico --add-data "Icons;Icons" --add-data "logo_stichtingzo_rgb.png;." --add-data "ENVStichtingZO.env;." StichtingZOPortaal.py
 
 def log_uncaught_exceptions(ex_cls, ex, tb):
-    """Vangt onverwachte fouten op en schrijft ze naar error_log.txt"""
     error_msg = ''.join(traceback.format_tb(tb))
     error_msg += f'{ex_cls.__name__}: {ex}\n'
     
@@ -104,7 +103,7 @@ class AutoUpdater:
                     if self.parent.active_nav_id == "Instellingen":
                         self.parent.show_tab_instellingen()
                 else:
-                    self.vraag_om_update(online_versie, download_url)
+                    self.parent.vraag_om_update(online_versie, download_url)
             else:
                 self.parent.update_available = False
                 if not stille_check:
@@ -965,7 +964,7 @@ class NotificationPopup(QDialog):
         btn_all.setObjectName("AccentButton")
         btn_all.setCursor(Qt.PointingHandCursor)
         btn_all.setStyleSheet(f"QPushButton {{ background-color: {Colors.accent}; color: white; font-weight: bold; border-radius: 6px; border: none; }} QPushButton:hover {{ background-color: #008F7A; }}")
-        btn_all.clicked.connect(lambda: (parent.show_tab_inzendingen(), self.close()))
+        btn_all.clicked.connect(lambda: (parent.laad_met_skeleton(parent.show_tab_inzendingen), self.close()))
         fl.addWidget(btn_all)
         
         layout.addWidget(frame)
@@ -1663,19 +1662,21 @@ class SnelstartPopup(QDialog):
                 row += 1
 
         def act_blank():
-            self.parent_window.show_tab_ontwerpen()
+            self.parent_window.laad_met_skeleton(self.parent_window.show_tab_ontwerpen)
 
-        def load_as_new(t_data):
-            self.parent_window.show_tab_ontwerpen()
-            self.parent_window.input_titel.setText(f"Kopie: {t_data.get('titel', '')}")
-            self.parent_window.input_desc.setText(t_data.get('beschrijving', ''))
-            
-            for w in self.parent_window.dynamische_vragen_widgets:
-                w['card'].deleteLater()
-            self.parent_window.dynamische_vragen_widgets.clear()
-            
-            for v in t_data.get('vragen', []):
-                self.parent_window.voeg_ontwerp_vraag_toe(v)
+        def load_as_new_wrapper(t_data):
+            def bouw_template():
+                self.parent_window.show_tab_ontwerpen()
+                self.parent_window.input_titel.setText(f"Kopie: {t_data.get('titel', '')}")
+                self.parent_window.input_desc.setText(t_data.get('beschrijving', ''))
+                
+                for w in self.parent_window.dynamische_vragen_widgets:
+                    w['card'].deleteLater()
+                self.parent_window.dynamische_vragen_widgets.clear()
+                
+                for v in t_data.get('vragen', []):
+                    self.parent_window.voeg_ontwerp_vraag_toe(v)
+            self.parent_window.laad_met_skeleton(bouw_template)
 
         def act_peil():
             tmpl = {
@@ -1687,7 +1688,7 @@ class SnelstartPopup(QDialog):
                     {"vraag": "Hoe waarschijnlijk is het dat je naar een activiteit in de buurt komt?", "type": "Slider (1-10)", "opties": [], "afbeeldingen": []}
                 ]
             }
-            load_as_new(tmpl)
+            load_as_new_wrapper(tmpl)
 
         def act_eval():
             tmpl = {
@@ -1699,7 +1700,7 @@ class SnelstartPopup(QDialog):
                     {"vraag": "Zou je volgende keer weer meedoen?", "type": "Keuze (Radiobuttons)", "opties": ["Zeker weten!", "Misschien", "Nee, bedankt"], "afbeeldingen": []}
                 ]
             }
-            load_as_new(tmpl)
+            load_as_new_wrapper(tmpl)
 
         add_to_grid(create_card("Blanco Canvas", "Begin vanaf nul met een leeg ontwerp.", "Newfile.svg", act_blank))
         add_to_grid(create_card("Behoeftepeiling", "Standaard vragen over interesses.", "Folder.svg", act_peil))
@@ -1710,7 +1711,7 @@ class SnelstartPopup(QDialog):
             titel = tmpl.get("titel", "Mijn Sjabloon")
             desc = tmpl.get("beschrijving", "Eigen ontwikkeld sjabloon.")
             if len(desc) > 35: desc = desc[:32] + "..."
-            add_to_grid(create_card(titel, desc, "Draft.svg", lambda t=tmpl: load_as_new(t), is_custom=True))
+            add_to_grid(create_card(titel, desc, "Draft.svg", lambda t=tmpl: load_as_new_wrapper(t), is_custom=True))
 
         scroll.setWidget(grid_container)
         fl.addWidget(scroll)
@@ -2088,6 +2089,11 @@ class StichtingZOPortal(QMainWindow):
         self.token_timer.timeout.connect(self.ververs_firebase_token)
         self.token_timer.start(45 * 60 * 1000)
 
+    def laad_met_skeleton(self, functie, *args):
+        """Toont de skeleton loading tab en roept na een kleine vertraging de echte functie aan"""
+        self.show_loading()
+        QTimer.singleShot(250, lambda: functie(*args))
+
     def check_offline_data(self):
         offline_dir = os.path.join(application_path, "OfflineData")
         if not os.path.exists(offline_dir) or not getattr(self, 'is_online', False) or USER_TOKEN == "OFFLINE": return
@@ -2204,45 +2210,21 @@ class StichtingZOPortal(QMainWindow):
         self.grid_layout.addWidget(self.main_area, 1, 1)
         
         self.loading_tab = QWidget()
-        load_layout = QVBoxLayout(self.loading_tab)
-        
-        skeleton_layout = QVBoxLayout()
-        skeleton_layout.setAlignment(Qt.AlignTop)
-        
-        title_skel = QFrame()
-        title_skel.setFixedSize(250, 40)
-        title_skel.setStyleSheet(f"background-color: {Colors.border}; border-radius: 8px;")
-        skeleton_layout.addWidget(title_skel)
-        skeleton_layout.addSpacing(20)
-        
-        grid_skel = QHBoxLayout()
-        for _ in range(3):
-            card_skel = QFrame()
-            card_skel.setFixedHeight(110)
-            card_skel.setStyleSheet(f"background-color: {Colors.bg_main}; border: 1px solid {Colors.border}; border-radius: 10px;")
-            grid_skel.addWidget(card_skel)
-        skeleton_layout.addLayout(grid_skel)
-        skeleton_layout.addSpacing(20)
-        
-        main_skel = QFrame()
-        main_skel.setFixedHeight(300)
-        main_skel.setStyleSheet(f"background-color: {Colors.bg_main}; border: 1px solid {Colors.border}; border-radius: 10px;")
-        skeleton_layout.addWidget(main_skel)
         
         self.shimmer_effect = QGraphicsOpacityEffect()
-        container_skel = QWidget()
-        container_skel.setLayout(skeleton_layout)
-        container_skel.setGraphicsEffect(self.shimmer_effect)
+        self.loading_tab.setGraphicsEffect(self.shimmer_effect)
         
+        # Donkerder pulse-effect (ademt van 0.4 naar 0.9 en terug)
         self.shimmer_anim = QPropertyAnimation(self.shimmer_effect, b"opacity")
-        self.shimmer_anim.setDuration(800)
-        self.shimmer_anim.setStartValue(0.4)
-        self.shimmer_anim.setEndValue(1.0)
+        self.shimmer_anim.setDuration(1200) 
+        self.shimmer_anim.setKeyValueAt(0.0, 0.4)
+        self.shimmer_anim.setKeyValueAt(0.5, 0.9)
+        self.shimmer_anim.setKeyValueAt(1.0, 0.4)
         self.shimmer_anim.setLoopCount(-1)
         
-        load_layout.addWidget(container_skel)
         self.main_area.addWidget(self.loading_tab)
-        
+
+        # Laad navigatie en instellingen in
         self.init_nav_buttons()
         self.rebuild_sidebar()
         self.setup_shortcuts()
@@ -2326,7 +2308,7 @@ class StichtingZOPortal(QMainWindow):
                 def make_callback(cb, b=btn):
                     def wrapper():
                         self.set_active_btn(b)
-                        cb()
+                        self.laad_met_skeleton(cb)
                     return wrapper
                 btn.clicked.connect(make_callback(btn_data["callback"]))
                 
@@ -2379,7 +2361,7 @@ class StichtingZOPortal(QMainWindow):
                 def make_callback(cb, b=btn):
                     def wrapper():
                         self.set_active_btn(b)
-                        cb()
+                        self.laad_met_skeleton(cb)
                     return wrapper
                 btn.clicked.connect(make_callback(btn_data["callback"]))
                 
@@ -2407,22 +2389,115 @@ class StichtingZOPortal(QMainWindow):
         if self.title_bar.btn_collapse:
             self.title_bar.btn_collapse.setIcon(self.get_tinted_icon("Menu.svg", Colors.text_main, Colors.text_main))
 
-    def show_loading(self, text="Laden..."):
+    def show_loading(self, text="Laden...", nav_id=None):
+        # Als er geen specifieke tab is opgegeven, pak dan de actieve tab
+        if nav_id is None:
+            nav_id = self.active_nav_id
+            
+        # Wis het oude skelet van de vorige laadactie
+        if self.loading_tab.layout():
+            QWidget().setLayout(self.loading_tab.layout())
+            
+        load_layout = QVBoxLayout(self.loading_tab)
+        load_layout.setAlignment(Qt.AlignTop)
+        
+        # Kleuren voor het skelet (duidelijker en donkerder!)
+        bg_color = "rgba(140, 145, 150, 0.35)" 
+        dark_color = "rgba(140, 145, 150, 0.55)"
+        
+        # --- STANDAARD TOPBAR (Heeft elke pagina) ---
+        top_skel = QHBoxLayout()
+        titel_skel = QFrame(); titel_skel.setFixedSize(250, 35)
+        titel_skel.setStyleSheet(f"background-color: {dark_color}; border-radius: 8px;")
+        top_skel.addWidget(titel_skel)
+        top_skel.addStretch()
+        
+        # --- DYNAMISCH SKELET PER PAGINA ---
+        if nav_id == "Overzicht":
+            btn1 = QFrame(); btn1.setFixedSize(140, 38); btn1.setStyleSheet(f"background-color: {bg_color}; border-radius: 8px;"); top_skel.addWidget(btn1)
+            btn2 = QFrame(); btn2.setFixedSize(180, 38); btn2.setStyleSheet(f"background-color: {dark_color}; border-radius: 8px;"); top_skel.addWidget(btn2)
+            load_layout.addLayout(top_skel); load_layout.addSpacing(10)
+            
+            hero = QFrame(); hero.setFixedHeight(100); hero.setStyleSheet(f"background-color: {bg_color}; border-radius: 12px;"); load_layout.addWidget(hero)
+            load_layout.addSpacing(15)
+            
+            kpi_row = QHBoxLayout()
+            for _ in range(3):
+                kpi = QFrame(); kpi.setFixedHeight(110); kpi.setStyleSheet(f"background-color: {bg_color}; border-radius: 10px;"); kpi_row.addWidget(kpi)
+            load_layout.addLayout(kpi_row); load_layout.addSpacing(15)
+            
+            bot_row = QHBoxLayout()
+            left = QFrame(); left.setFixedHeight(300); left.setStyleSheet(f"background-color: {bg_color}; border-radius: 10px;"); bot_row.addWidget(left, stretch=5)
+            right = QFrame(); right.setFixedHeight(300); right.setStyleSheet(f"background-color: {bg_color}; border-radius: 10px;"); bot_row.addWidget(right, stretch=4)
+            load_layout.addLayout(bot_row)
+            
+        elif nav_id in ["Vragenlijsten", "Concepten", "Inzendingen"]:
+            if nav_id != "Inzendingen":
+                btn1 = QFrame(); btn1.setFixedSize(180, 38); btn1.setStyleSheet(f"background-color: {dark_color}; border-radius: 8px;"); top_skel.addWidget(btn1)
+            load_layout.addLayout(top_skel); load_layout.addSpacing(10)
+            
+            filter_row = QHBoxLayout()
+            f1 = QFrame(); f1.setFixedSize(200, 35); f1.setStyleSheet(f"background-color: {bg_color}; border-radius: 6px;"); filter_row.addWidget(f1)
+            f2 = QFrame(); f2.setFixedSize(200, 35); f2.setStyleSheet(f"background-color: {bg_color}; border-radius: 6px;"); filter_row.addWidget(f2)
+            f3 = QFrame(); f3.setFixedSize(100, 35); f3.setStyleSheet(f"background-color: {dark_color}; border-radius: 6px;"); filter_row.addWidget(f3)
+            filter_row.addStretch(); load_layout.addLayout(filter_row); load_layout.addSpacing(20)
+            
+            for _ in range(4):
+                item = QFrame(); item.setFixedHeight(95); item.setStyleSheet(f"background-color: {bg_color}; border-radius: 10px;"); load_layout.addWidget(item)
+                
+        elif nav_id == "Nieuwe Vragenlijst":
+            btn1 = QFrame(); btn1.setFixedSize(160, 38); btn1.setStyleSheet(f"background-color: {bg_color}; border-radius: 8px;"); top_skel.addWidget(btn1)
+            btn2 = QFrame(); btn2.setFixedSize(160, 38); btn2.setStyleSheet(f"background-color: {bg_color}; border-radius: 8px;"); top_skel.addWidget(btn2)
+            btn3 = QFrame(); btn3.setFixedSize(180, 38); btn3.setStyleSheet(f"background-color: {dark_color}; border-radius: 8px;"); top_skel.addWidget(btn3)
+            load_layout.addLayout(top_skel); load_layout.addSpacing(10)
+            
+            titel_box = QFrame(); titel_box.setFixedHeight(120); titel_box.setStyleSheet(f"background-color: {bg_color}; border-radius: 10px;"); load_layout.addWidget(titel_box)
+            load_layout.addSpacing(10)
+            vraag_box = QFrame(); vraag_box.setFixedHeight(250); vraag_box.setStyleSheet(f"background-color: {bg_color}; border-radius: 10px;"); load_layout.addWidget(vraag_box)
+            
+        elif nav_id == "Data Dashboard":
+            btn1 = QFrame(); btn1.setFixedSize(180, 38); btn1.setStyleSheet(f"background-color: {bg_color}; border-radius: 8px;"); top_skel.addWidget(btn1)
+            load_layout.addLayout(top_skel); load_layout.addSpacing(10)
+            
+            filter_row = QHBoxLayout()
+            f1 = QFrame(); f1.setFixedSize(120, 35); f1.setStyleSheet(f"background-color: {bg_color}; border-radius: 6px;"); filter_row.addWidget(f1)
+            f2 = QFrame(); f2.setFixedSize(250, 35); f2.setStyleSheet(f"background-color: {dark_color}; border-radius: 6px;"); filter_row.addWidget(f2)
+            filter_row.addStretch(); load_layout.addLayout(filter_row); load_layout.addSpacing(15)
+            
+            kpi_row = QHBoxLayout()
+            for _ in range(3):
+                kpi = QFrame(); kpi.setFixedHeight(100); kpi.setStyleSheet(f"background-color: {bg_color}; border-radius: 10px;"); kpi_row.addWidget(kpi)
+            load_layout.addLayout(kpi_row); load_layout.addSpacing(15)
+            
+            chart = QFrame(); chart.setFixedHeight(450); chart.setStyleSheet(f"background-color: {bg_color}; border-radius: 10px;"); load_layout.addWidget(chart)
+            
+        else: 
+            # Default fallback voor instellingen en profiel
+            load_layout.addLayout(top_skel); load_layout.addSpacing(20)
+            for _ in range(3):
+                box = QFrame(); box.setFixedHeight(140); box.setStyleSheet(f"background-color: {bg_color}; border-radius: 10px;"); load_layout.addWidget(box)
+                
+        load_layout.addStretch()
+
+        # Start de ademende glow-animatie
         self.shimmer_anim.start()
         self.main_area.setCurrentWidget(self.loading_tab)
         QApplication.processEvents()
 
     def clear_stacked_widget(self):
-        for i in range(self.main_area.count() - 1, -1, -1):
-            widget = self.main_area.widget(i)
-            if widget != self.loading_tab:
-                self.main_area.removeWidget(widget)
-                widget.deleteLater()
+
+        pass
 
     def hide_loading(self, target_widget):
         self.shimmer_anim.stop()
         self.main_area.addWidget(target_widget)
         self.main_area.setCurrentWidget(target_widget)
+
+        for i in range(self.main_area.count() - 1, -1, -1):
+            widget = self.main_area.widget(i)
+            if widget != target_widget and widget != self.loading_tab:
+                self.main_area.removeWidget(widget)
+                widget.deleteLater()
 
     def init_data(self):
         self.haal_data_op()
@@ -2469,8 +2544,8 @@ class StichtingZOPortal(QMainWindow):
         ]
         
         self.shortcuts_list[0].activated.connect(lambda: self.sla_template_op() if self.active_nav_id == "Nieuwe Vragenlijst" else None)
-        self.shortcuts_list[1].activated.connect(lambda: self.show_tab_ontwerpen())
-        self.shortcuts_list[2].activated.connect(lambda: (self.show_tab_inzendingen(), self.search_inp.setFocus()))
+        self.shortcuts_list[1].activated.connect(lambda: self.laad_met_skeleton(self.show_tab_ontwerpen))
+        self.shortcuts_list[2].activated.connect(lambda: (self.laad_met_skeleton(self.show_tab_inzendingen), QTimer.singleShot(400, self.search_inp.setFocus)))
 
     def haal_data_op(self):
         try:
@@ -2620,7 +2695,7 @@ class StichtingZOPortal(QMainWindow):
         tekst_layout.addWidget(lbl_groet)
         
         lbl_msg = QLabel(f"Je hebt momenteel <b>{gepubliceerd_count} actieve vragenlijsten</b> en <b>{tot_inz} inzendingen</b> verzameld.") 
-        lbl_msg.setWordWrap(True)  # <-- DEZE REGEL TOEVOEGEN!
+        lbl_msg.setWordWrap(True)  
         lbl_msg.setStyleSheet(f"color: {Colors.text_grey}; font-size: 14px; border: none; margin-top: 2px;")
         tekst_layout.addWidget(lbl_msg)
         
@@ -2878,7 +2953,7 @@ class StichtingZOPortal(QMainWindow):
             btn_edit.setObjectName("DetailsButton")
             btn_edit.setFixedHeight(36)
             btn_edit.setCursor(Qt.PointingHandCursor)
-            btn_edit.clicked.connect(lambda checked=False, t=tmpl: self.show_tab_ontwerpen(t))
+            btn_edit.clicked.connect(lambda checked=False, t=tmpl: self.laad_met_skeleton(self.show_tab_ontwerpen, t))
             
             btn_invullen = QPushButton(" Invullen")
             btn_invullen.setIcon(self.get_tinted_icon("Continue.svg", "white", "white"))
@@ -2886,7 +2961,7 @@ class StichtingZOPortal(QMainWindow):
             btn_invullen.setFixedHeight(36)
             btn_invullen.setFixedWidth(120)
             btn_invullen.setCursor(Qt.PointingHandCursor)
-            btn_invullen.clicked.connect(lambda checked=False, t=tmpl: self.show_formulier(t))
+            btn_invullen.clicked.connect(lambda checked=False, t=tmpl: self.laad_met_skeleton(self.show_formulier, t))
 
             btn_more = QPushButton()
             btn_more.setIcon(self.get_tinted_icon("More.svg", Colors.text_main))
@@ -3018,7 +3093,7 @@ class StichtingZOPortal(QMainWindow):
             btn_edit = QPushButton(" Verder Bewerken")
             btn_edit.setIcon(self.get_tinted_icon("Continue.svg", "white", "white"))
             btn_edit.setObjectName("AccentButton")
-            btn_edit.clicked.connect(lambda checked, t=tmpl: self.show_tab_ontwerpen(t))
+            btn_edit.clicked.connect(lambda checked, t=tmpl: self.laad_met_skeleton(self.show_tab_ontwerpen, t))
             
             for b in [btn_del, btn_edit]: btn_layout.addWidget(b)
             card_layout.addLayout(btn_layout)
@@ -3053,9 +3128,9 @@ class StichtingZOPortal(QMainWindow):
                     self.toon_melding("Vragenlijst verwijderd.", "success")
                     self.haal_data_op()
                     if self.active_nav_id == "Concepten":
-                        self.show_tab_concepten()
+                        self.laad_met_skeleton(self.show_tab_concepten)
                     else:
-                        self.show_tab_vragenlijsten()
+                        self.laad_met_skeleton(self.show_tab_vragenlijsten)
             except Exception as e:
                 self.toon_melding(f"Fout bij verwijderen: {e}", "error")
 
@@ -3079,7 +3154,10 @@ class StichtingZOPortal(QMainWindow):
             btn_back.setStyleSheet(f"background: transparent; border: none; font-size: 14px; font-weight: bold; color: {Colors.accent}; margin-right: 15px;")
             btn_back.setCursor(Qt.PointingHandCursor)
             is_concept = edit_template.get("status") == "concept"
-            btn_back.clicked.connect(self.show_tab_concepten if is_concept else self.show_tab_vragenlijsten)
+            if is_concept:
+                btn_back.clicked.connect(lambda: self.laad_met_skeleton(self.show_tab_concepten))
+            else:
+                btn_back.clicked.connect(lambda: self.laad_met_skeleton(self.show_tab_vragenlijsten))
             self.topbar_layout.addWidget(btn_back)
             
         self.topbar_layout.addWidget(self.lbl_titel)
@@ -3435,9 +3513,9 @@ class StichtingZOPortal(QMainWindow):
                 
             self.haal_data_op()
             if status == "concept":
-                self.show_tab_concepten()
+                self.laad_met_skeleton(self.show_tab_concepten)
             else:
-                self.show_tab_vragenlijsten()
+                self.laad_met_skeleton(self.show_tab_vragenlijsten)
         except Exception as e:
             self.toon_melding(f"Opslaan mislukt: {e}", "error")
 
@@ -3452,7 +3530,7 @@ class StichtingZOPortal(QMainWindow):
         btn_back = QPushButton("← Terug")
         btn_back.setStyleSheet(f"background: transparent; border: none; font-size: 16px; font-weight: bold; color: {Colors.accent}; margin-right: 15px;")
         btn_back.setCursor(Qt.PointingHandCursor)
-        btn_back.clicked.connect(self.show_tab_vragenlijsten)
+        btn_back.clicked.connect(lambda: self.laad_met_skeleton(self.show_tab_vragenlijsten))
         self.topbar_layout.addWidget(btn_back)
         
         self.lbl_titel = QLabel("Invullen")
@@ -3469,18 +3547,19 @@ class StichtingZOPortal(QMainWindow):
         layout.addSpacing(10)
 
         scroll = QScrollArea(); scroll.setWidgetResizable(True)
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff) # <-- 1. Scrollbar keihard uitzetten
         container = QWidget(); form_layout = QVBoxLayout(container)
         form_layout.setAlignment(Qt.AlignTop)
         
         header_card = QFrame(); header_card.setObjectName("Card"); hl = QVBoxLayout(header_card)
         
+        # <-- 2. Titel netjes laten afbreken
         lbl_titel_form = QLabel(str(template.get('titel') or ''))
         lbl_titel_form.setWordWrap(True) 
         lbl_titel_form.setStyleSheet(f"font-size: 22px; font-weight: bold; color: {Colors.accent}; border: none;")
         hl.addWidget(lbl_titel_form)
         
-        
+        # <-- 3. Beschrijving netjes laten afbreken
         beschrijving = str(template.get('beschrijving') or '').strip()
         if beschrijving: 
             lbl_desc_form = QLabel(beschrijving)
@@ -3653,7 +3732,7 @@ class StichtingZOPortal(QMainWindow):
                 raise Exception("Offline")
                 
             self.haal_data_op()
-            self.show_tab_vragenlijsten()
+            self.laad_met_skeleton(self.show_tab_vragenlijsten)
 
         except Exception as e:
             offline_dir = os.path.join(application_path, "OfflineData")
@@ -3666,7 +3745,7 @@ class StichtingZOPortal(QMainWindow):
                 json.dump(data, f)
                 
             self.toon_melding("Offline opgeslagen. Sync volgt bij internet!", "info")
-            self.show_tab_vragenlijsten()
+            self.laad_met_skeleton(self.show_tab_vragenlijsten)
 
     def show_tab_inzendingen(self):
         self.highlight_nav_btn("Inzendingen")
@@ -3839,24 +3918,23 @@ class StichtingZOPortal(QMainWindow):
         self.dash_scroll.setWidget(self.dash_container)
         layout.addWidget(self.dash_scroll)
         
-        self.hide_loading(tab)
         self.render_dashboard_content(self.huidige_dashboard_filter)
+        self.hide_loading(tab)
 
     def render_dashboard_content(self, filter_val):
         self.huidige_dashboard_filter = filter_val
-        
-        # 1. Bestaande widgets netjes en grondig opruimen
-        while self.dash_layout.count():
-            item = self.dash_layout.takeAt(0)
-            widget = item.widget()
-            if widget: 
-                widget.deleteLater()
-            elif item.layout():
-                # Ruim ook stiekeme oude layouts op om dubbeling te voorkomen
-                while item.layout().count():
-                    sub_item = item.layout().takeAt(0)
-                    if sub_item.widget(): sub_item.widget().deleteLater()
-            
+
+        oude_container = self.dash_scroll.takeWidget()
+        if oude_container:
+            oude_container.deleteLater()
+
+        self.dash_container = QWidget()
+        self.dash_layout = QVBoxLayout(self.dash_container)
+        self.dash_layout.setAlignment(Qt.AlignTop)
+        self.dash_scroll.setWidget(self.dash_container)
+
+        QApplication.processEvents() 
+
         actieve_data = [d for d in self.opgeslagen_data if d.get("status") != "verwijderd"]
         data = actieve_data if filter_val == "Alle Vragenlijsten" else [k for k in actieve_data if str(k.get("template_titel") or "") == filter_val]
         tot = len(data)
@@ -3938,6 +4016,9 @@ class StichtingZOPortal(QMainWindow):
                             for spine in ax.spines.values(): spine.set_color(Colors.border)
                             ax.yaxis.set_major_locator(MaxNLocator(integer=True))
 
+                            maximale_waarde = max(telling.values())
+                            ax.set_ylim(0, maximale_waarde + (maximale_waarde * 0.3) + 1)
+
                             labels = list(telling.keys())
                             wrapped_labels = [textwrap.fill(lbl, width=15) for lbl in labels]
                             bars = ax.bar(wrapped_labels, telling.values(), color=Colors.accent, width=0.5)
@@ -3971,16 +4052,20 @@ class StichtingZOPortal(QMainWindow):
                                 return hover
 
                             fig.canvas.mpl_connect("motion_notify_event", maak_hover_functie(ax, fig, bars, labels, details))
-                            fig.subplots_adjust(bottom=0.35) 
+                            fig.subplots_adjust(bottom=0.35, top=0.85)
                             
                             canvas = FigureCanvasQTAgg(fig)
-                            
                             canvas.wheelEvent = lambda event: event.ignore()
                             
                             chart_layout.addWidget(canvas)
+                            
+                            plt.close(fig)
+                            
                         except Exception as e: pass
                     
                     self.dash_layout.addWidget(chart_card)
+                    
+                    QApplication.processEvents()
         
         opm_card = QFrame(); opm_card.setObjectName("Card"); ol = QVBoxLayout(opm_card)
         ol.addWidget(QLabel("Recente Ideeën & Opmerkingen", styleSheet="font-size: 16px; font-weight: bold; border: none;"))
@@ -3999,7 +4084,6 @@ class StichtingZOPortal(QMainWindow):
                 ol.addWidget(item)
             
         self.dash_layout.addWidget(opm_card)
-
     def exporteer_data(self):
         actieve_data = [d for d in self.opgeslagen_data if d.get("status") != "verwijderd"]
         if not actieve_data: return self.toon_melding("Geen data om te exporteren", "error")
