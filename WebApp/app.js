@@ -84,7 +84,24 @@ function bouwFormulier(template) {
     headerCard.innerHTML = html;
     
     const form = document.getElementById('enquete-formulier');
+    
+    // --- NIEUW: Progressiebalk Container (Sticky bovenaan) ---
+    const progressContainer = document.createElement('div');
+    progressContainer.id = "progress-container";
+    progressContainer.style.cssText = "position: sticky; top: 0; background: var(--bg-main); z-index: 100; padding: 15px 0 10px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 20px;";
+    progressContainer.innerHTML = `
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; font-weight: bold; color: var(--text-main);">
+            <span>Voortgang</span>
+            <span id="progress-text">0% voltooid</span>
+        </div>
+        <div style="width: 100%; height: 10px; background-color: rgba(150, 150, 150, 0.2); border-radius: 5px; overflow: hidden;">
+            <div id="progress-fill" style="width: 0%; height: 100%; background-color: var(--accent); transition: width 0.4s ease-out;"></div>
+        </div>
+    `;
+
+    // Voeg eerst de progressiebalk toe, en DAARONDER pas de headerkaart
     form.insertBefore(headerCard, form.firstChild);
+    form.insertBefore(progressContainer, form.firstChild);
 
     const vragenDiv = document.getElementById('dynamische-vragen');
 
@@ -175,6 +192,55 @@ function bouwFormulier(template) {
             });
         }
     });
+}
+// --- NIEUW: Functie om voortgang te berekenen ---
+function updateProgress() {
+    let ingevuld = 0;
+    
+    // We gaan ervan uit dat Naam, Leeftijd en Geslacht verplichte basisvelden zijn (dus 3 velden)
+    let totaalVelden = 3; 
+
+    // 1. Check de standaard contactvelden
+    if (document.getElementById('naam') && document.getElementById('naam').value.trim() !== '') ingevuld++;
+    if (document.getElementById('geslacht') && document.getElementById('geslacht').value !== '') ingevuld++;
+    if (document.getElementById('leeftijd') && document.getElementById('leeftijd').value !== '') ingevuld++;
+
+    // 2. Check de dynamische vragen
+    const vragen = huidigeTemplate.vragen || [];
+    totaalVelden += vragen.length; // Voeg het aantal vragen toe aan het totaal
+
+    vragen.forEach((vraag, index) => {
+        const type = vraag.type || "Dropdown";
+        let heeftAntwoord = false;
+
+        if (type === "Open Vraag" || type === "Slider (1-10)" || type === "Dropdown") {
+            const el = document.getElementById(`antwoord-${index}`);
+            // Check of het veld bestaat en of de waarde niet leeg is
+            if (el && el.value !== "" && el.value.trim() !== "") {
+                heeftAntwoord = true;
+            }
+        } else if (type === "Keuze (Radiobuttons)" || type === "Meerkeuze (Checkboxes)") {
+            // Kijk of er minimaal 1 bolletje/vinkje is aangeklikt
+            const checked = document.querySelector(`input[name="antwoord-${index}"]:checked`);
+            if (checked) {
+                heeftAntwoord = true;
+            }
+        }
+
+        if (heeftAntwoord) ingevuld++;
+    });
+
+    // 3. Bereken het percentage en update de balk
+    let percentage = Math.round((ingevuld / totaalVelden) * 100);
+    if (percentage > 100) percentage = 100;
+
+    const progressFill = document.getElementById('progress-fill');
+    const progressText = document.getElementById('progress-text');
+    
+    if (progressFill && progressText) {
+        progressFill.style.width = percentage + '%';
+        progressText.innerText = percentage + '% voltooid';
+    }
 }
 
 function checkAnders(selectElement, index) {
@@ -294,6 +360,9 @@ document.getElementById('enquete-formulier').addEventListener('submit', function
         alert("Fout bij opslaan: " + error.message);
     });
 });
+// Luister live naar alle wijzigingen in het hele formulier!
+document.getElementById('enquete-formulier').addEventListener('input', updateProgress);
+document.getElementById('enquete-formulier').addEventListener('change', updateProgress);
 
 haalVragenlijstOp();
 

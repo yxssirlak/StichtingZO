@@ -212,19 +212,3 @@ input[type="range"] {
 .success h2 {
     color: var(--secondary);
 }
-
-#progress-container {
-    /* Zorgt voor een zachte schaduw als de gebruiker naar beneden scrolt */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    
-    /* Omdat jouw body een padding van 20px heeft, zetten we de sticky top ook op 20px 
-       zodat hij perfect uitlijnt en niet tegen de rand van het scherm plakt. */
-    top: 20px !important; 
-}
-
-.dark-mode #progress-container {
-    /* Iets donkerdere en duidelijkere schaduw als Dark Mode aan staat */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-}
