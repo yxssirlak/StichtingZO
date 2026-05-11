@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 from PIL import Image, ImageDraw
 from collections import Counter
 
-HUIDIGE_VERSIE = "1.4.3"
+HUIDIGE_VERSIE = "1.4.4"
 
 #python -m PyInstaller --noconsole --onefile --exclude PyQt5 --icon=app.ico --add-data "Icons;Icons" --add-data "logo_stichtingzo_rgb.png;." --add-data "ENVStichtingZO.env;." StichtingZOPortaal.py
 
